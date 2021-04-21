@@ -19,6 +19,7 @@ def criar_funcionario(request):
             funcionario = form.save(commit=False)
             funcionario.empresa = usuario.empresa_selecionada
             funcionario.save()
+            return recuperar_funcionarios(request)
         else:
             print(form.errors)
     return render(request, "seguranca_trabalho/cadastros/formulario_funcionario.html", { "form": form, "msg" : msg, "success" : success, "link": _link })
