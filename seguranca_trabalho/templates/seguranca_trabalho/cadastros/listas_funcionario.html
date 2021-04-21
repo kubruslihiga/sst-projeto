@@ -52,7 +52,7 @@
                         <tbody>
                             {% for f in funcionarios %}
                             <tr>
-                                <td><a href="{{ f.id }}">{{ f.nome }}</a></td>
+                                <td><a href="/funcionario/{{ f.id }}">{{ f.nome }}</a></td>
                                 <td>{{ f.cpf }}</td>
                                 <td>{{ f.data_nascimento|date:"d/m/Y" }}</td>
                                 <td>{{ f.data_exame_admissional|date:"d/m/Y" }}</td>
