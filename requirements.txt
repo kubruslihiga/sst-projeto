@@ -1,0 +1,12 @@
+asgiref
+autopep8
+django==3.1.7
+pycodestyle
+pytz
+sqlparse
+Unipath
+dj-database-url
+python-decouple
+gunicorn
+whitenoise
+django-widget-tweaks==1.4.8

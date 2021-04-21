@@ -1,0 +1,439 @@
+{% extends 'layouts/base-fullscreen.html' %}
+
+{% block title %} Register {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- Page content -->
+    <div class="container mt--8 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card bg-secondary shadow border-0">
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ form.acidente_data_hora }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ form.acidente_data_hora.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.tipo_cat }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.tipo_cat.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_horas_trabalhadas }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_horas_trabalhadas.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_obito }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_obito.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_data_obito }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_data_obito.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_notificacao_policial }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_notificacao_policial.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.fator_acidente }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.fator_acidente.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_aviso_comunicacao }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_aviso_comunicacao.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.observacao }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.observacao.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.tipo_localizacao_acidente }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.tipo_localizacao_acidente.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.localizacao_acidente_especificacao }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.localizacao_acidente_especificacao.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_tipo_endereco }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_tipo_endereco.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_endereco_descricao }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_endereco_descricao.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_endereco_numero }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_endereco_numero.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_endereco_complemento }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_endereco_complemento.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_endereco_bairro }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_endereco_bairro.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_endereco_cep }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_endereco_cep.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_endereco_cidade }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_endereco_cidade.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_endereco_estado }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_endereco_estado.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_endereco_pais }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_endereco_pais.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.acidente_endereco_codigo_postal }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.acidente_endereco_codigo_postal.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.tipo_inscricao }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.tipo_inscricao.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.inscricao_numero }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.inscricao_numero.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.parte_corpo_atingida }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.parte_corpo_atingida.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.lado_parte_corpo_atingida }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.lado_parte_corpo_atingida.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.atestado_medico_codigo }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.atestado_medico_codigo.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.atestado_medico_data }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.atestado_medico_data.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.hospital }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.hospital.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.tempo_hospital }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.tempo_hospital.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.afastamento_medico }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.afastamento_medico.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.natureza_lesao }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.natureza_lesao.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.lesao_complemento_descricao }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.lesao_complemento_descricao.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.diagnostico }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.diagnostico.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.cid_codigo }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.cid_codigo.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.atestado_medico_observacao }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.atestado_medico_observacao.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.nome_medico }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.nome_medico.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.natureza_lesao_classificao }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.natureza_lesao_classificao.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.classificao_codigo_medico }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.classificao_codigo_medico.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.uf_medico }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.uf_medico.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.codigo_cat }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.codigo_cat.errors }}</span>
+
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="ni ni-hat-3"></i></span>
+                                </div>
+                                {{ forms.e_social_notificado }}
+                            </div>
+                        </div>
+                        <span class="text-error">{{ forms.e_social_notificado.errors }}</span>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary mt-4">Confirmar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}
+
