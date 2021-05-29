@@ -15,7 +15,7 @@ def criar_funcionario(request):
     if request.POST:
         usuario:Usuario = request.user
         POST = request.POST.copy()
-        POST.update({'cpf': re.sub("[^0-9]", "", POST.cpf)})
+        POST.update({'cpf': re.sub("[^0-9]", "", POST['cpf'])})
         form = FuncionarioForm(POST, initial={'empresa': usuario.empresa_selecionada})
         if form.is_valid():
             success = True
