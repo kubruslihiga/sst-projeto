@@ -60,7 +60,6 @@ class ResponsavelRegistroAmbiental(models.Model):
         verbose_name="Responsável pelo registro ambiental"
         verbose_name_plural="Responsáveis pelo registro ambiental"
     __tablename__ = "sst_resp_registro_ambiental"
-    # id = models.IntegerField(Sequence('resp_registro_ambiental_id_sequence'), primary_key=True)
     cpf = models.CharField(max_length=13, null=False)
     nis = models.CharField(max_length=20, null=True)
     nome = models.CharField(max_length=150, null=False)
@@ -90,7 +89,6 @@ class CondicaoFatorRisco(models.Model):
         verbose_name="Condição de fator risco"
         verbose_name_plural="Condições de fator risco"
     __tablename__ = "sst_condicao_fator_risco"
-    # id = models.IntegerField(Sequence('condicao_fator_risco_id_sequence'), primary_key=True)
     empresa = models.ForeignKey(Empresa, null=False, on_delete=models.PROTECT)
     funcionario = models.ForeignKey(Funcionario, null=False, on_delete=models.PROTECT)
     data_inicio = models.DateTimeField(null=False)

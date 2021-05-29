@@ -1,7 +1,7 @@
 
 {% extends 'layouts/base.html' %}
 
-{% block title %} Cadastro funcionário {% endblock title %}
+{% block title %} Cadastro de EPI {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -12,9 +12,9 @@
             <div class="card col-xl-12 col-lg-12">
                 <div class="card-header border-0">
                     <div class="row">
-                        <div class="col-6"><h3 class="mb-0">Lista dos funcionários</h3></div>
+                        <div class="col-6"><h3 class="mb-0">Lista de equipamentos</h3></div>
                         <div class="col-6 text-right">
-                            <button type="button" onclick="window.location.replace('/funcionario/novo')" class="btn btn-primary btn-sm btn-round btn-icon">NOVO</button>
+                            <button type="button" onclick="window.location.replace('/equipamento/novo')" class="btn btn-primary btn-sm btn-round btn-icon">NOVO</button>
                         </div>
                     </div>
                 </div>
@@ -22,29 +22,25 @@
                     <table class="table align-items-center table-flush">
                         <thead class="thead-light">
                         <tr>
-                            <th scope="col">Nome</th>
-                            <th scope="col">CPF</th>
-                            <th scope="col">Data de nascimento</th>
-                            <th scope="col">Data do exame admissional</th>
-                            <th scope="col">Setor</th>
-                            <th scope="col">Cargo</th>
-                            <th scope="col">Função</th>
+                            <th scope="col">Código</th>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Prazo de validade</th>
+                            <th scope="col">Certificado de aprovação</th>
                             <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody>
-                            {% for f in funcionarios %}
+                            {% for epi in equipamentos %}
                             <tr>
-                                <td><a href="/funcionario/{{ f.id }}">{{ f.nome }}</a></td>
-                                <td>{{ f.cpf }}</td>
-                                <td>{{ f.data_nascimento|date:"d/m/Y" }}</td>
-                                <td>{{ f.data_exame_admissional|date:"d/m/Y" }}</td>
-                                <td>{{ f.setor }}</td>
-                                <td>{{ f.cargo }}</td>
-                                <td>{{ f.funcao }}</td>
+                                <td><a href="/equipamento/{{ epi.id }}">{{ epi.codigo }}</a></td>
+                                <td>{{ epi.descricao }}</td>
+                                <td>{{ epi.tipo }}</td>
+                                <td>{{ epi.prazo_validade|date:"d/m/Y" }}</td>
+                                <td>{{ epi.certificado_aprovacao }}</td>
                                 <td>
                                     <div class="btn-group" role="group" aria-label="Basic example">
-                                        <button type="button" class="btn btn-secondary" onclick="location.href='/funcionario/{{ f.id }}/equipamento'" data-toggle="tooltip" data-placement="top" title="Associar equipamento">
+                                        <button type="button" class="btn btn-secondary" onclick="location.href='/equipamento/{{ epi.id }}/funcionario'" data-toggle="tooltip" data-placement="top" title="Associar funcionário">
                                             <i class="fa fa-plus"></i>
                                         </button>
                                     </div>

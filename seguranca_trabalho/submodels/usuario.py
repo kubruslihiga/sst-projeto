@@ -1,6 +1,6 @@
 import re
 from django.db import models
-from django.contrib.auth.models import AbstractUser, AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.core import validators

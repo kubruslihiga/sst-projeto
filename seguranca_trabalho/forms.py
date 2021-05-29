@@ -7,22 +7,6 @@ from seguranca_trabalho.submodels.comunicacao_acidente_trabalho import Comunicac
 from seguranca_trabalho.submodels.monitoramento_saude_trabalhador import MonitoramentoSaudeTrabalhador
 from seguranca_trabalho.submodels.condicao_fator_risco_ambiente_trabalho import CondicaoFatorRisco
 
-class ComunicacaoAcidenteTrabalhoForm(forms.ModelForm):
-    class Meta:
-        model = ComunicacaoAcidenteTrabalho
-        fields = ["acidente_data_hora", "tipo_acidente", "tipo_cat", "acidente_horas_trabalhadas",
-                    "acidente_obito", "acidente_data_obito", "acidente_notificacao_policial", "fator_acidente",
-                    "acidente_aviso_comunicacao", "observacao", "tipo_localizacao_acidente", 
-                    "localizacao_acidente_especificacao", "acidente_tipo_endereco", "acidente_endereco_descricao",
-                    "acidente_endereco_numero", "acidente_endereco_complemento", "acidente_endereco_bairro",
-                    "acidente_endereco_cep", "acidente_endereco_cidade", "acidente_endereco_estado",
-                    "acidente_endereco_pais", "acidente_endereco_codigo_postal", "tipo_inscricao",
-                    "inscricao_numero", "parte_corpo_atingida", "lado_parte_corpo_atingida",
-                    "atestado_medico_codigo", "atestado_medico_data", "hospital", "tempo_hospital",
-                    "afastamento_medico", "natureza_lesao", "lesao_complemento_descricao", "diagnostico",
-                    "cid_codigo", "atestado_medico_observacao", "nome_medico", "natureza_lesao_classificao",
-                    "classificao_codigo_medico", "uf_medico", "codigo_cat"]
-
 class MonitoramentoSaudeTrabalhadorForm(forms.ModelForm):
     class Meta:
         model = MonitoramentoSaudeTrabalhador

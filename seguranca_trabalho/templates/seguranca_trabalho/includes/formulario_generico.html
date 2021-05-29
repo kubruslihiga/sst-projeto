@@ -1,73 +1,75 @@
-
 {% extends 'layouts/base.html' %}
+{% load custom_tags %}
 
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+{% block css %}
+<style type="text/css">
+    label.required {
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
     {% load widget_tweaks %}
     <!-- Page content -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-        <div class="container-fluid">
-            <div class="header-body">
-                <div class="row">
-                    <div class="col-xl-12 col-lg-12">
-                        <div class="card card-stats mb-4 mb-xl-0">
-                            <div class="card-body">
-                                <div class="row justify-content-center">
-                                    <h5 class="card-title text-uppercase mb-0">{% block nome_entidade %}{% endblock nome_entidade %}</h5>
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card bg-secondary shadow border-1">
+                    <div class="card-header">
+                        <h3 class="mb-0">{% block nome_entidade %}{% endblock nome_entidade %}</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% for field in form.visible_fields %}
+                                <div class="form-group">
+                                    {% if field|is_checkbox_or_radio %}
+                                        <div class="form-check">
+                                            {% if field.errors %}
+                                                {% render_field field class+="form-check-input is-invalid" %}
+                                            {% else %}
+                                                {% render_field field class+="form-check-input" %}
+                                            {% endif %}
+                                            <label class="{% for l_class in field.label_classes %}{{ l_class }} {% endfor %} form-check-label" for="{{ field.auto_id }}">{{ field.label }}</label>
+                                        </div>
+                                    {% else %}
+                                        {{ field.label_tag }}
+                                        {% if field.errors %}
+                                            {% render_field field class+="form-control is-invalid" %}
+                                        {% else %}
+                                            {% render_field field class+="form-control" %}
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback">{{ error|escape }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                            <div class="row">
+                                <div class="col text-center">
+                                    <button type="button" class="btn btn-secondary" onclick="window.location.replace('{{ link }}')">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Confirmar</button>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container-fluid mt--7">
-        <div class="row">
-            <div class="col-lg-12 col-md-12">
-                <div class="card bg-secondary shadow border-1">
-                    <form  method="POST">
-                        {% csrf_token %}
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger" role="alert">
-                            {% for error in form.non_field_errors %}
-                                {{ error }}
-                            {% endfor %}
-                            </div>
-                        {% endif %}
-
-                        {% for field in form.visible_fields %}
-                            <div class="form-group">
-                                {{ field.label_tag }}
-                                {% if field.errors %}
-                                    {% render_field field class="form-control is-invalid" %}
-                                {% else %}
-                                    {% render_field field class="form-control" %}
-                                {% endif %}
-                                {% if field.help_text %}
-                                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                                {% endif %}
-                                {% for error in field.errors %}
-                                    <div class="invalid-feedback">{{ error|escape }}</div>
-                                {% endfor %}
-                            </div>
-                        {% endfor %}
-                        <div class="row">
-                            <div class="col text-center">
-                                <button type="button" class="btn btn-secondary" onclick="window.location.replace('{{ link }}')">Cancelar</button>
-                                <button type="submit" class="btn btn-primary">Confirmar</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock content %}
-<!-- Specific JS goes HERE --> 
-{% block javascripts %}
-    
-{% endblock javascripts %}
 
+{% block javascripts %}
+{% endblock javascripts %}

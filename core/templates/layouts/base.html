@@ -24,7 +24,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   
   <title>
-    Argon Dashboard Django - {% block title %} Open-Source Admin Panel {% endblock %} | Creative-Tim
+    Segurança do trabalho - {% block title %} Início {% endblock %}
   </title>
 
   <!-- Favicon - loaded as static -->
@@ -38,8 +38,7 @@
   <!-- CSS Files -->
   <link href="/static/assets/css/argon-dashboard.css?v=1.1.0" rel="stylesheet" />
 
-  <!-- Specific CSS goes HERE -->
-  {% block stylesheets %}{% endblock stylesheets %}
+  {% block css %}{% endblock %}
 
 </head>
 
@@ -51,15 +50,39 @@
 
     {% include "includes/navigation.html" %}
 
+    <!-- Page content -->
+    <div class="header bg-gradient-primary pb-5 pt-5 pt-md-8">
+      <div class="container-fluid">
+          <div class="header-body">
+              <div class="row">
+                  <div class="col-xl-12 col-lg-12">
+                    {% if request.alert_warning_message %}
+                      <div class="alert alert-warning" role="alert">
+                        {{ request.alert_warning_message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    {% endif %}
+                    {% if request.alert_success_message %}
+                      <div class="alert alert-success" role="alert">
+                        {{ request.alert_success_message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    {% endif %}
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
     {% block content %}{% endblock content %}
 
   </div>
 
   {% include "includes/scripts.html" %}
-
-  <!-- Specific JS goes HERE --> 
   {% block javascripts %}{% endblock javascripts %}
-
 </body>
 
 </html>

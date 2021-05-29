@@ -1,3 +1,5 @@
+import re
+from django.http.response import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from seguranca_trabalho._forms.funcionario import FuncionarioForm
@@ -12,13 +14,16 @@ def criar_funcionario(request):
     form = FuncionarioForm()
     if request.POST:
         usuario:Usuario = request.user
-        form = FuncionarioForm(request.POST, initial={'empresa': usuario.empresa_selecionada})
+        POST = request.POST.copy()
+        POST.update({'cpf': re.sub("[^0-9]", "", POST.cpf)})
+        form = FuncionarioForm(POST, initial={'empresa': usuario.empresa_selecionada})
         if form.is_valid():
             success = True
             msg = "Funcionário criado com sucesso"
             funcionario = form.save(commit=False)
             funcionario.empresa = usuario.empresa_selecionada
             funcionario.save()
+            request.alert_success_message = "Funcionário criado com sucesso."
             return recuperar_funcionarios(request)
         else:
             print(form.errors)
@@ -27,26 +32,37 @@ def criar_funcionario(request):
 @login_required(login_url="login")
 def recuperar_funcionarios(request):
     usuario:Usuario = request.user
+    funcionarios = []
     if usuario.empresa_selecionada:
         funcionarios = Funcionario.objects.filter(empresa=usuario.empresa_selecionada)
     return render(request, "seguranca_trabalho/cadastros/listas_funcionario.html", { "funcionarios": funcionarios })
 
 @login_required(login_url="login")
 def detalhar_funcionario(request, id):
-    funcionario = get_object_or_404(Funcionario, pk=id)
-    usuario:Usuario = request.user
-    if funcionario.empresa != request.user.empresa_selecionada:
-        return render(request, "seguranca_trabalho/cadastros/listas_funcionario.html", { "funcionarios": funcionarios })
-    form = FuncionarioForm(instance=funcionario)
-    success = False
-    msg = ""
-    if request.method == 'POST':
-        form = FuncionarioForm(request.POST, instance=funcionario)
-        if form.is_valid():
-            success = True
-            msg = "Funcionário criado com sucesso"
-            funcionario = form.save(commit=False)
-            funcionario.empresa = usuario.empresa_selecionada
-            funcionario.save()
+    try:
+        funcionario = get_object_or_404(Funcionario, pk=id)
+        usuario:Usuario = request.user
+        if funcionario.empresa != request.user.empresa_selecionada:
+            request.alert_warning_message = "Funcionário não está associado a empresa."
             return recuperar_funcionarios(request)
-    return render(request, "seguranca_trabalho/cadastros/formulario_funcionario.html", { "form": form, "msg" : msg, "success" : success, "link": _link })
+        form = FuncionarioForm(instance=funcionario)
+        success = False
+        msg = ""
+        if request.method == 'POST':
+            POST = request.POST.copy()
+            POST.update({'cpf': re.sub("[^0-9]", "", POST['cpf'])})
+            form = FuncionarioForm(POST, instance=funcionario)
+            if form.is_valid():
+                success = True
+                msg = "Funcionário criado com sucesso"
+                funcionario = form.save(commit=False)
+                funcionario.empresa = usuario.empresa_selecionada
+                funcionario.save()
+                request.alert_success_message = "Funcionário alterado com sucesso."
+                return recuperar_funcionarios(request)
+        return render(request, "seguranca_trabalho/cadastros/formulario_funcionario.html", { "form": form, "msg" : msg, "success" : success, "link": _link })
+    except Http404:
+        request.alert_warning_message = "Identificador do funcionário não está permitido para alteração."
+        resp:HttpResponse = recuperar_funcionarios(request)
+        return resp
+        

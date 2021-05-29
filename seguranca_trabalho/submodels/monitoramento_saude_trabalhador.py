@@ -1,5 +1,7 @@
+from seguranca_trabalho.submodels.funcionario import Funcionario
 from django.db import models
 from .enums import get_choices
+from .empresa import Empresa
 
 class TipoExame:
     ADMISSIONAL=0
@@ -41,12 +43,8 @@ class MonitoramentoSaudeTrabalhador(models.Model):
     class Meta:
         verbose_name="Monitoramento de saúde do trabalhador"
         verbose_name_plural="Monitoramento de saúde do trabalhador"
-    # empresa = relationship("Empresa")
-    # empresa_id = Column(Integer, ForeignKey('sst_empresa.id'), comment="Id da empresa", doc="Id da empresa")
-    empresa_id = models.IntegerField(null=True)
-    # funcionario = relationship("Funcionario")
-    # funcionario_id = Column(Integer, ForeignKey('sst_funcionario.id'), comment="Id do funcionario", doc="Id do funcionario")
-    funcionario_id = models.IntegerField(null=True)
+    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT, null=False)
+    funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT, null=False)
     estagiario = models.BooleanField(null=False, default=False)
     tipo_exame = models.IntegerField(choices=get_choices(TipoExame), null=False)
     data_aso = models.DateTimeField(null=False)
