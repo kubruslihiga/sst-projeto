@@ -32,29 +32,7 @@
 
                             {% for field in form.visible_fields %}
                                 <div class="form-group">
-                                    {% if field|is_checkbox_or_radio %}
-                                        <div class="form-check">
-                                            {% if field.errors %}
-                                                {% render_field field class+="form-check-input is-invalid" %}
-                                            {% else %}
-                                                {% render_field field class+="form-check-input" %}
-                                            {% endif %}
-                                            <label class="{% for l_class in field.label_classes %}{{ l_class }} {% endfor %} form-check-label" for="{{ field.auto_id }}">{{ field.label }}</label>
-                                        </div>
-                                    {% else %}
-                                        {{ field.label_tag }}
-                                        {% if field.errors %}
-                                            {% render_field field class+="form-control is-invalid" %}
-                                        {% else %}
-                                            {% render_field field class+="form-control" %}
-                                        {% endif %}
-                                    {% endif %}
-                                    {% if field.help_text %}
-                                        <small class="form-text text-muted">{{ field.help_text }}</small>
-                                    {% endif %}
-                                    {% for error in field.errors %}
-                                        <div class="invalid-feedback">{{ error|escape }}</div>
-                                    {% endfor %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=field %}
                                 </div>
                             {% endfor %}
                             <div class="row">

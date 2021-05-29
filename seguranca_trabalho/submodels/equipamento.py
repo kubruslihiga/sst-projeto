@@ -25,7 +25,7 @@ class FuncionarioEquipamento(models.Model):
     funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT, verbose_name="Funcionário")
     empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT, verbose_name="Empresa")
     equipamento = models.ForeignKey(Equipamento, on_delete=models.PROTECT, verbose_name="Equipamento")
-    quantidade = models.IntegerField(null=False, verbose_name="Quantidade")
+    quantidade = models.PositiveIntegerField(null=False, verbose_name="Quantidade")
     data_entrega = models.DateTimeField(null=False, verbose_name="Data de entrega")
     devolucao = models.BooleanField(null=False, default=False, verbose_name="Devolução")
     data_devolucao = models.DateTimeField(null=True, default=datetime.utcnow, verbose_name="Data de devolução")

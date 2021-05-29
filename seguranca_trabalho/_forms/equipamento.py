@@ -9,6 +9,7 @@ TIPO_EQUIPAMENTO_OPTIONS = (
     (TipoEquipamento.EPI, "EPI"),
     (TipoEquipamento.EPC, "EPC"),
 )
+
 class EquipamentoForm(forms.ModelForm):
     tipo = forms.ChoiceField(widget=forms.Select, choices=TIPO_EQUIPAMENTO_OPTIONS)
     prazo_validade = forms.DateField(input_formats=['%d/%m/%Y'], widget=forms.DateInput(format="%d/%m/%Y", attrs={ "data-mask": "99/99/9999" }), required=False)

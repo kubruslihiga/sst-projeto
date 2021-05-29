@@ -1,11 +1,76 @@
-{% extends "seguranca_trabalho/includes/formulario_generico.html" %}
+{% extends 'layouts/base.html' %}
+{% load custom_tags %}
 
-{% block title %} Monitoramento saúde do trabalhador {% endblock title %}
+{% block title %} Monitoramento da saúde do trabalhador {% endblock title %}
 
-{% block nome_entidade %} Monitoramento saúde do trabalhador {% endblock nome_entidade %}
+{% block content %}
+    {% load widget_tweaks %}
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card bg-secondary shadow border-1">
+                    <div class="card-header">
+                        <h3 class="mb-0">Monitoramento da saúde do trabalhador</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                                </div>
+                            {% endif %}
 
-<!-- Specific CSS goes HERE -->
-{% block stylesheets %}{% endblock stylesheets %}
+                            <fieldset class="form-group">
+                                <legend>Informação do funcionário</legend>
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.funcionario %}
+                            </fieldset>
+    
+                            <fieldset class="form-group">
+                                <legend>Detalhamento das informações do exame médico ocupacional</legend>
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.tipo_exame %}
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.data_aso %}
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.resultado_aso %}
+                            </fieldset>
 
-<!-- Specific JS goes HERE --> 
-{% block javascripts %}{% endblock javascripts %}
+                            <fieldset class="form-group">
+                                <legend>Avaliações clínicas e exames complementares</legend>
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.data_exame %}
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.procedimento %}
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.observacao_procedimento %}
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.ordem_exame %}
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.indicacao_resultado %}
+                            </fieldset>
+
+                            <fieldset class="form-group">
+                                <legend>Informações sobre o médico emitente do ASO</legend>
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.medicos %}
+                            </fieldset>
+
+                            <fieldset class="form-group">
+                                <legend>Informações sobre o médico responsável / coordenador do PCMSO</legend>
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.coordenador_cpf %}
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.coordenador_crm %}
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.coordenador_uf %}
+                                {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.coordenador_nome %}
+                            </fieldset>
+
+                            <div class="row">
+                                <div class="col text-center">
+                                    <button type="button" class="btn btn-secondary" onclick="window.location.replace('{{ link }}')">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+{% endblock javascripts %}

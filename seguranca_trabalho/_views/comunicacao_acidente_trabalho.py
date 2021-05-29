@@ -6,9 +6,9 @@ from seguranca_trabalho._forms.comunicacao_acidente_trabalho import ComunicacaoA
 def criar_comunicacao_acidente_trabalho(request):
     success = False
     msg = None
-    form = ComunicacaoAcidenteTrabalhoForm()
+    form = ComunicacaoAcidenteTrabalhoForm(request.user)
     if request.POST:
-        form = ComunicacaoAcidenteTrabalhoForm(request.POST)
+        form = ComunicacaoAcidenteTrabalhoForm(request.user, request.POST)
         if form.is_valid():
             success = True
             msg = "CAT criada com sucesso"

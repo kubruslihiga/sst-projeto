@@ -24,38 +24,41 @@ class Procedimento(models.Model):
     class Meta:
         verbose_name="Procedimento"
         verbose_name_plural="Procedimentos"
-    codigo = models.CharField(max_length=30, null=False)
-    nome = models.CharField(max_length=250, null=False)
+    codigo = models.CharField(max_length=30, null=False, verbose_name="Código")
+    nome = models.CharField(max_length=250, null=False, verbose_name="Nome")
+    def __str__(self) -> str:
+        return self.codigo + " - " + self.nome
 
 class MedicoASO(models.Model):
     __tablename__ = "sst_medico_aso"
     class Meta:
         verbose_name="Médico ASO"
         verbose_name_plural="Médicos ASO"
-    cpf = models.CharField(max_length=13, null=False)
-    nit = models.CharField(max_length=30, null=False)
-    nome = models.CharField(max_length=150, null=False)
-    numero_inscricao = models.CharField(max_length=20, null=False)
-    uf = models.CharField(max_length=10, null=False)
+    cpf = models.CharField(max_length=13, null=False, verbose_name="CPF")
+    nit = models.CharField(max_length=30, null=False, verbose_name="NIT")
+    nome = models.CharField(max_length=150, null=False, verbose_name="Nome")
+    numero_inscricao = models.CharField(max_length=20, null=False, verbose_name="Número de inscrição")
+    uf = models.CharField(max_length=10, null=False, verbose_name="UF")
 
 class MonitoramentoSaudeTrabalhador(models.Model):
     __tablename__ = "sst_monitoramento_saude"
     class Meta:
         verbose_name="Monitoramento de saúde do trabalhador"
         verbose_name_plural="Monitoramento de saúde do trabalhador"
-    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT, null=False)
-    funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT, null=False)
-    estagiario = models.BooleanField(null=False, default=False)
-    tipo_exame = models.IntegerField(choices=get_choices(TipoExame), null=False)
-    data_aso = models.DateTimeField(null=False)
-    resultado_aso = models.IntegerField(choices=get_choices(ResultadoASO), null=False)
-    data_exame = models.DateTimeField(null=False)
-    procedimento = models.ForeignKey(Procedimento, null=False, on_delete=models.PROTECT)
-    observacao_procedimento = models.CharField(max_length=1000, null=True)
-    ordem_exame = models.IntegerField(choices=get_choices(OrdemExame), null=False)
-    indicacao_resultado = models.IntegerField(null=False)
-    medicos = models.ManyToManyField(MedicoASO)
-    coordenador_cpf = models.CharField(max_length=13, null=False)
-    coordenador_crm = models.CharField(max_length=20, null=False)
-    coordenador_uf = models.CharField(max_length=20, null=False)
-    coordenador_nome = models.CharField(max_length=150, null=False)
+    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT, null=False, verbose_name="Empresa")
+    funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT, null=False, verbose_name="Funcionário")
+    estagiario = models.BooleanField(null=False, default=False, verbose_name="Estagiário")
+    tipo_exame = models.IntegerField(choices=get_choices(TipoExame), null=False, verbose_name="Tipo de exame")
+    data_aso = models.DateTimeField(null=False, verbose_name="Data do ASO")
+    resultado_aso = models.IntegerField(choices=get_choices(ResultadoASO), null=False, verbose_name="Resultado do ASO")
+    data_exame = models.DateTimeField(null=False, verbose_name="Data do exame")
+    procedimento = models.ForeignKey(Procedimento, null=False, on_delete=models.PROTECT, verbose_name="Procedimento")
+    observacao_procedimento = models.CharField(max_length=1000, null=True, verbose_name="Observação do procedimento")
+    ordem_exame = models.IntegerField(choices=get_choices(OrdemExame), null=False, verbose_name="Ordem do exame")
+    indicacao_resultado = models.IntegerField(null=False, verbose_name="Indicação do resultado")
+    medicos = models.ManyToManyField(MedicoASO, verbose_name="Médico emitente do ASO")
+    # coordenador do PCMSO
+    coordenador_cpf = models.CharField(max_length=13, null=False, verbose_name="CPF")
+    coordenador_crm = models.CharField(max_length=20, null=False, verbose_name="Número CRM")
+    coordenador_uf = models.CharField(max_length=20, null=False, verbose_name="UF")
+    coordenador_nome = models.CharField(max_length=150, null=False, verbose_name="Nome")
