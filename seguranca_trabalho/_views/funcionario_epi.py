@@ -25,11 +25,11 @@ def detalhar_funcionario_epi(request, id):
         if funcionario_epi.empresa != request.user.empresa_selecionada:
             request.alert_warning_message = "Associação funcionário e equipamento não é da empresa selecionada."
             return recuperar_funcionario_epis(request)
-        form = FuncionarioEPIForm(instance=funcionario_epi)
+        form = FuncionarioEPIForm(usuario, instance=funcionario_epi)
         success = False
         msg = ""
         if request.method == 'POST':
-            form = FuncionarioEPIForm(request.POST, instance=funcionario_epi)
+            form = FuncionarioEPIForm(usuario, request.POST, instance=funcionario_epi)
             if form.is_valid():
                 success = True
                 msg = "Associação funcionário e equipamento foi alterada com sucesso."

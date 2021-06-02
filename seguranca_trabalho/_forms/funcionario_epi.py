@@ -1,5 +1,6 @@
 from seguranca_trabalho.submodels.funcionario import Funcionario
 from django import forms
+from django.forms import ValidationError
 
 from seguranca_trabalho.submodels.equipamento import Equipamento, FuncionarioEquipamento
 from seguranca_trabalho.submodels.funcionario import Funcionario
@@ -35,6 +36,11 @@ class FuncionarioEPIForm(forms.ModelForm):
             self.fields[d_field].disabled = True
         self.fields['funcionario'].queryset=Funcionario.objects.filter(empresa=usuario.empresa_selecionada)
         self.fields['equipamento'].queryset=Equipamento.objects.filter(empresa=usuario.empresa_selecionada)
+
+    def clean(self):
+        if self.cleaned_data['data_vencimento'] <= self.cleaned_data['data_entrega']:
+            raise ValidationError("A data de vencimento do equipamento deve ser posterior a data de entrega")
+            
 
     class Meta:
         model = FuncionarioEquipamento
