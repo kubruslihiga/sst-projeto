@@ -12,6 +12,36 @@ class ClassificacaoBrasileiraOcupacao(models.Model):
     def __str__(self):
         return self.codigo + " - " + self.descricao
 
+class Setor(models.Model):
+    class Meta:
+        verbose_name="Setor"
+        verbose_name_plural="Setores"
+    codigo = models.CharField(max_length=100, null=False, verbose_name="Código")
+    descricao = models.CharField(max_length=300, null=False, verbose_name="Descrição")
+    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT, null=False)
+
+    def __str__(self):
+        return self.codigo + " - " + self.descricao
+
+class Cargo(models.Model):
+    class Meta:
+        verbose_name="Cargo"
+        verbose_name_plural="Cargos"
+    codigo = models.CharField(max_length=100, null=False, verbose_name="Código")
+    descricao = models.CharField(max_length=300, null=False, verbose_name="Descrição")
+    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT, null=False)
+
+    def __str__(self):
+        return self.codigo + " - " + self.descricao
+
+class Funcao(models.Model):
+    class Meta:
+        verbose_name="Função"
+        verbose_name_plural="Funções"
+    codigo = models.CharField(max_length=100, null=False, verbose_name="Código")
+    descricao = models.CharField(max_length=300, null=False, verbose_name="Descrição")
+    empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT, null=False)
+
 class Funcionario(models.Model):
     __tablename__= "sst_funcionario"
     class Meta:
@@ -33,10 +63,10 @@ class Funcionario(models.Model):
     estagiario = models.BooleanField(default=False)
     data_exame_admissional = models.DateTimeField(null=False, verbose_name="Data do exame admissional")
     data_exame_demissional = models.DateTimeField(null=True, verbose_name="Data do exame demissional", help_text="Campo não obrigatório para funcionário ativo")
-    setor = models.CharField(max_length=50, null=False, verbose_name="Setor")
-    cargo = models.CharField(max_length=50, null=False, verbose_name="Cargo")
-    funcao = models.CharField(max_length=50, null=False, verbose_name="Função")
-    url_imagem = models.CharField(max_length=1000, null=False, verbose_name="URL da imagem")
+    setor = models.ForeignKey(Setor, on_delete=models.PROTECT, null=True)
+    cargo = models.ForeignKey(Cargo, on_delete=models.PROTECT, null=True)
+    funcao = models.ForeignKey(Funcao, on_delete=models.PROTECT, null=True)
+    url_imagem = models.CharField(max_length=1000, null=True, verbose_name="URL da imagem")
 
     def __str__(self):
         return self.nome

@@ -20,6 +20,11 @@ class FuncionarioEPIForm(forms.ModelForm):
         input_formats=['%d/%m/%Y'], 
         error_messages={ "invalid": "O formato da data deve ser dd/mm/yyyy"},
         widget=forms.DateInput(format="%d/%m/%Y", attrs={ "data-mask": "99/99/9999" } ))
+    comentario = forms.CharField(
+        required=False,
+        max_length=500,
+        widget=forms.Textarea(attrs={ "rows": "3", "class": "textarea" }))
+
     def __init__(self, usuario, *args, **kwargs):
         disabled_fields = []
         if kwargs.get("disabled_fields") is not None:
