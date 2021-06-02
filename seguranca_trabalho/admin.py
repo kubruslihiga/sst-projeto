@@ -14,6 +14,9 @@ admin.site.register(Usuario)
 # Register your models here.
 admin.site.register(Empresa)
 admin.site.register(Funcionario)
+admin.site.register(Setor)
+admin.site.register(Cargo)
+admin.site.register(Funcao)
 admin.site.register(ClassificacaoBrasileiraOcupacao)
 
 admin.site.register(Equipamento)
