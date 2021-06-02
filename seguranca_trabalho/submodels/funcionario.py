@@ -42,6 +42,9 @@ class Funcao(models.Model):
     descricao = models.CharField(max_length=300, null=False, verbose_name="Descrição")
     empresa = models.ForeignKey(Empresa, on_delete=models.PROTECT, null=False)
 
+    def __str__(self):
+        return self.codigo + " - " + self.descricao
+
 class Funcionario(models.Model):
     __tablename__= "sst_funcionario"
     class Meta:
