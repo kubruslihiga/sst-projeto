@@ -14,7 +14,7 @@ _link = "/funcionario_epi"
 def recuperar_funcionario_epis(request):
     usuario:Usuario = request.user
     if usuario.empresa_selecionada:
-        funcionario_epi_list = FuncionarioEquipamento.objects.filter(empresa=usuario.empresa_selecionada)
+        funcionario_epi_list = FuncionarioEquipamento.objects.filter(empresa=usuario.empresa_selecionada).order_by('funcionario__nome')
     return render(request, "seguranca_trabalho/cadastros/listas_funcionario_epi.html", { "funcionario_epis": funcionario_epi_list })
 
 @login_required(login_url="login")
