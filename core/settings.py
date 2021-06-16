@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'seguranca_trabalho.apps.SegurancaTrabalhoConfig',
     'widget_tweaks',
+    'django_apscheduler',
     'app'  # Enable the inner app 
 ]
 
@@ -135,3 +136,17 @@ STATICFILES_DIRS = (
 #############################################################
 
 AUTH_USER_MODEL = 'seguranca_trabalho.Usuario'
+
+
+#############
+# Agendamento
+#############
+SCHEDULER_CONFIG = {
+    "apscheduler.jobstores.default": {
+        "class": "django_apscheduler.jobstores:DjangoJobStore"
+    },
+    "apscheduler.executors.processpool": {
+        "type": "threadpool"
+    },
+}
+SCHEDULER_AUTOSTART = True

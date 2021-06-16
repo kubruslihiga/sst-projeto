@@ -10,3 +10,5 @@ python-decouple
 gunicorn
 whitenoise
 django-widget-tweaks==1.4.8
+django-apscheduler==0.5.2
+APScheduler==3.7.0

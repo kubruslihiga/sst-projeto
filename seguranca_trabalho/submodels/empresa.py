@@ -20,3 +20,6 @@ class Empresa(models.Model):
 
     def __str__(self):
         return self.codigo + ": " + self.razao_social
+    
+    def bla(self):
+        print("TESTE")
