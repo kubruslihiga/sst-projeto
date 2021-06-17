@@ -7,6 +7,8 @@ class SegurancaTrabalhoConfig(AppConfig):
     verbose_name = "Segurança do trabalho"
 
     def ready(self):
+        import sys
         from . import scheduler
-        if settings.SCHEDULER_AUTOSTART:
-        	scheduler.start()
+        if (len(sys.argv) > 1 and sys.argv[1] == 'runserver'):
+            if settings.SCHEDULER_AUTOSTART:
+                scheduler.start()
