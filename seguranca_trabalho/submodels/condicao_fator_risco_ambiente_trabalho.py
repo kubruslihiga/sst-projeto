@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.deletion import PROTECT
 from .enums import get_choices
 from .funcionario import Funcionario
 from .empresa import Empresa
@@ -73,6 +74,36 @@ class ResponsavelRegistroAmbiental(models.Model):
     uf = models.CharField(max_length=20, null=False, verbose_name="UF")
     #condicao_fator_risco = models.ForeignKey(CondicaoFatorRisco, on_delete=models.PROTECT)
 
+class CondicaoAmbientalFatorRisco(models.Model):
+    class Meta:
+        verbose_name="Condição ambiental de fator risco"
+        verbose_name_plural="Condições ambientais de fator risco"
+    __tablename__ = "sst_condicao_fator_risco"
+    empresa = models.ForeignKey(Empresa, null=False, on_delete=models.PROTECT, verbose_name="Empresa")
+    funcionario = models.ForeignKey(Funcionario, null=False, on_delete=models.PROTECT, verbose_name="Funcionário")
+    data_inicio = models.DateField(null=False, verbose_name="Data de início")
+    descricao_atividade_ambiente = models.CharField(max_length=1000, null=True, verbose_name="Descrição das atividades desempenhadas no trabalho")
+    atividades = models.ManyToManyField(Atividade, verbose_name="Atividades")
+    responsavel_registro_ambiental = models.ForeignKey(ResponsavelRegistroAmbiental, on_delete=models.PROTECT, null=True)
+    metodologia_riscos_ergonomicos = models.CharField(max_length=1000, null=True)
+    observacao = models.CharField(max_length=1000, null=True)
+    cadastro_completo = models.BooleanField(null=False, default=False)
+
+class CondicaoFator(models.Model):
+    fator_risco = models.ForeignKey(FatorRisco, on_delete=models.PROTECT, verbose_name="Fator de risco")
+    tipo_avaliacao = models.IntegerField(choices=get_choices(CriterioAvaliacao), null=False, verbose_name="Tipo de avaliação")
+    intensidade = models.IntegerField(null=False, verbose_name="Intensidade")
+    limite_tolerancia = models.IntegerField(null=True, verbose_name="Limite de tolerância") #tem coisa errada
+    unidade_medida = models.ForeignKey(UnidadeMedida, on_delete=models.PROTECT, verbose_name="Unidade de medida")
+    tecnica_utilizada = models.CharField(max_length=1000, null=False, verbose_name="Técnica utilizada")
+    insalubridade = models.BooleanField(default=False, null=False, verbose_name="Insalubridade")
+    periculosidade = models.BooleanField(default=False, null=False, verbose_name="Periculosidade")
+    aposentadoria_especial = models.BooleanField(default=False, null=False, verbose_name="Aposentadoria especial")
+    utilizacao_epc = models.IntegerField(choices=get_choices(UtilizacaoEPC), null=False, verbose_name="Utilização de EPC")
+    epc_eficaz = models.BooleanField(null=False, default=False, verbose_name="EPC eficaz")
+    utilizacao_epi = models.IntegerField(choices=get_choices(UtilizacaoEPI), null=False, verbose_name="Utilização de EPI")
+    condicao_ambiental_fator_risco = models.ForeignKey(CondicaoAmbientalFatorRisco, on_delete=models.PROTECT, null=True)
+
 class AnaliseEPI(models.Model):
     __tablename__ = "sst_analise_epi"
     class Meta:
@@ -87,30 +118,4 @@ class AnaliseEPI(models.Model):
     observado_prazo_validade_ca = models.BooleanField(null=False, default=False, verbose_name="Observada o prazo de validade do CA")
     observado_periodicidade_troca = models.BooleanField(null=False, default=False, verbose_name="Observada a periodicidade de troca")
     observada_higienizacao_epi = models.BooleanField(null=False, default=False, verbose_name="Observada higienização da EPI")
-
-class CondicaoFatorRisco(models.Model):
-    class Meta:
-        verbose_name="Condição de fator risco"
-        verbose_name_plural="Condições de fator risco"
-    __tablename__ = "sst_condicao_fator_risco"
-    empresa = models.ForeignKey(Empresa, null=False, on_delete=models.PROTECT, verbose_name="Empresa")
-    funcionario = models.ForeignKey(Funcionario, null=False, on_delete=models.PROTECT, verbose_name="Funcionário")
-    data_inicio = models.DateField(null=False, verbose_name="Data de início")
-    descricao_atividade_ambiente = models.CharField(max_length=1000, null=True, verbose_name="Descrição das atividades desempenhadas no trabalho")
-    atividades = models.ManyToManyField(Atividade, verbose_name="Atividades")
-    fator_risco = models.ForeignKey(FatorRisco, on_delete=models.PROTECT, verbose_name="Fator de risco")
-    tipo_avaliacao = models.IntegerField(choices=get_choices(CriterioAvaliacao), null=False, verbose_name="Tipo de avaliação")
-    intensidade = models.IntegerField(null=False, verbose_name="Intensidade")
-    limite_tolerancia = models.IntegerField(null=True, verbose_name="Limite de tolerância") #tem coisa errada
-    unidade_medida = models.ForeignKey(UnidadeMedida, on_delete=models.PROTECT, verbose_name="Unidade de medida")
-    tecnica_utilizada = models.CharField(max_length=1000, null=False, verbose_name="Técnica utilizada")
-    insalubridade = models.BooleanField(default=False, null=False, verbose_name="Insalubridade")
-    periculosidade = models.BooleanField(default=False, null=False, verbose_name="Periculosidade")
-    aposentadoria_especial = models.BooleanField(default=False, null=False, verbose_name="Aposentadoria especial")
-    utilizacao_epc = models.IntegerField(choices=get_choices(UtilizacaoEPC), null=False, verbose_name="Utilização de EPC")
-    epc_eficaz = models.BooleanField(null=False, default=False, verbose_name="EPC eficaz")
-    utilizacao_epi = models.IntegerField(choices=get_choices(UtilizacaoEPI), null=False, verbose_name="Utilização de EPI")
-    analises_epi = models.ForeignKey(AnaliseEPI, related_name="condicao_fator_risco", on_delete=models.PROTECT, verbose_name="")
-    responsaveis_registro_ambiental = models.ForeignKey(ResponsavelRegistroAmbiental, related_name="condicao_fator_risco", on_delete=models.PROTECT)
-    metodologia_riscos_ergonomicos = models.CharField(max_length=1000, null=True)
-    observacao = models.CharField(max_length=1000, null=False)
+    condicao_fator = models.ForeignKey(CondicaoFator, on_delete=models.PROTECT, null=True)

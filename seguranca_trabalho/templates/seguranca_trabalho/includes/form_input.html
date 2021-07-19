@@ -1,7 +1,7 @@
 {% load custom_tags %}
 {% load widget_tweaks %}
 
-<div class="form-group">
+<div class="form-group {{ form_class }} ">
     {% if field|is_checkbox_or_radio %}
         <div class="form-check">
             {% if field.errors %}
@@ -14,9 +14,9 @@
     {% else %}
         {{ field.label_tag }}
         {% if field.errors %}
-            {% render_field field class+="form-control is-invalid" %}
+            {% render_field field class+="form-control is-invalid form-control-sm" %}
         {% else %}
-            {% render_field field class+="form-control" %}
+            {% render_field field class+="form-control form-control-sm" %}
         {% endif %}
     {% endif %}
     {% if field.help_text %}

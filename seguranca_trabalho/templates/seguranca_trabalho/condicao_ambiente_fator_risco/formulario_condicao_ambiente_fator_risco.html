@@ -1,0 +1,137 @@
+{% extends 'layouts/base.html' %}
+{% load custom_tags %}
+
+{% block title %} Condições ambientais de trabalho - Fatores de risco {% endblock title %}
+
+{% block content %}
+    {% load widget_tweaks %}
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card bg-secondary shadow border-1">
+                    <div class="card-header">
+                        <h3 class="mb-0">Condições ambientais de trabalho - Fatores de risco</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                                </div>
+                            {% endif %}
+                            <ul class="nav nav-tabs" id="condicao-tab" role="tablist">
+                                <li class="nav-item"><a class="nav-link active" id="basicos-tab" data-toggle="tab" role="tab" href="#dados-basicos">Dados básicos</a></li>
+                                <li class="nav-item"><a class="nav-link" id="fator-risco-tab" data-toggle="tab" role="tab" href="#fator-risco">Fatores de risco</a></li>
+                            </ul>
+                            <div class="tab-content" id="tab-condicao-trabalho">
+                                <div class="tab-pane fade show active" id="dados-basicos">
+                                    <fieldset class="form-group">
+                                        <legend>Informação do funcionário</legend>
+                                        {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.funcionario %}
+                                    </fieldset>
+
+                                    <fieldset class="form-group">
+                                        <legend>Informações sobre o ambiente de trabalho, atividades desempenhadas e exposição a fatores de risco</legend>
+                                        {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.data_inicio %}
+                                        {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.descricao_atividade_ambiente %}
+                                    </fieldset>
+
+                                    <fieldset class="form-group">
+                                        <legend>Informações das atividades periculosas, insalubres ou especial desempenhadas</legend>
+                                        {%  include 'seguranca_trabalho/includes/form_input.html' with field=form.atividades %}
+                                    </fieldset>
+                                </div>
+                                <div class="tab-pane" id="fator-risco">
+                                    {{ condicao_fator_formset.management_form }}
+                                    {% for c in condicao_fator_formset.forms %}
+                                        <fieldset class="form-group formset" data-prefix="{{ condicao_fator_formset.prefix }}">
+                                            <legend>Fator de risco no ambiente</legend>
+                                            {% for hidden in c.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.fator_risco %}
+                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.tipo_avaliacao %}
+                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.intensidade %}
+                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.limite_tolerancia %}
+                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.unidade_medida %}
+                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.tecnica_utilizada %}
+                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.insalubridade %}
+                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.periculosidade %}
+                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.aposentadoria_especial %}
+                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.utilizacao_epc %}
+                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.epc_eficaz %}
+                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.utilizacao_epi %}
+
+                                            {% if c.analise_epis %}
+                                                {{ c.analise_epis.management_form }}
+                                                {{ c.analise_epis.non_form_errors }}
+                                                {% for analise in c.analise_epis.forms %}
+                                                    <fieldset class="form-group nested-formset" data-prefix="{{ c.analise_epis.prefix }}">
+                                                        <legend>Análise da EPI</legend>
+                                                        <div class="form-row">
+                                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=analise.certificacao_epi form_class="col-md-6" %}
+                                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=analise.descricao_epi form_class="col-md-6" %}
+                                                        </div>
+                                                        <div class="form-row">
+                                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=analise.epi_eficaz form_class="col-md-6" %}
+                                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=analise.hierarquia_medida_protecao_coletiva form_class="col-md-6" %}
+                                                        </div>
+                                                        <div class="form-row">
+                                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=analise.observada_condicao_funcionamento form_class="col-md-6" %}
+                                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=analise.observado_epi form_class="col-md-6" %}
+                                                        </div>
+                                                        <div class="form-row">
+                                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=analise.observado_prazo_validade_ca form_class="col-md-6" %}
+                                                            {%  include 'seguranca_trabalho/includes/form_input.html' with field=analise.observado_periodicidade_troca form_class="col-md-6" %}
+                                                        </div>
+                                                        {%  include 'seguranca_trabalho/includes/form_input.html' with field=analise.observada_higienizacao_epi %}
+                                                    </fieldset>
+                                                {% endfor %}
+                                            {% else %}
+                                            {% endif %}
+                                        </fieldset>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col text-center">
+                                    <button type="button" class="btn btn-secondary" onclick="window.location.replace('{{ link }}')">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Confirmar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+<script>
+    $(function() {
+        var applyFormset = function ($fieldset, prefix) {
+            var p = prefix;
+            if (!prefix) {
+                p = $fieldset.data("prefix");
+            }
+            $fieldset.formset({
+                addText: "Adicionar",
+                deleteText: "Remover",
+                prefix: p,
+                added: function(row) {
+                    row = row.find("fieldset.nested-formset");
+                    applyFormset($(row));
+                }
+            });
+        };
+        applyFormset($("fieldset.formset"), "{{ condicao_fator_formset.prefix }}");
+        applyFormset($("fieldset.nested-formset"))
+    })
+</script>
+{% endblock javascripts %}

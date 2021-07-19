@@ -5,12 +5,14 @@ from seguranca_trabalho._views.equipamento import criar_equipamento, recuperar_e
 from seguranca_trabalho._views.funcionario import criar_funcionario, detalhar_funcionario, recuperar_funcionarios
 from seguranca_trabalho._views.funcionario_epi import associar_equipamento, associar_funcionario, recuperar_funcionario_epis, detalhar_funcionario_epi
 from seguranca_trabalho._views.comunicacao_acidente_trabalho import criar_comunicacao_acidente_trabalho
+from seguranca_trabalho._views.condicao_fator_risco_ambiente_trabalho import criar_condicao_fator_risco_ambiente_trabalho, configurar_fator_risco
 from .views import criar_monitoramento_trabalhador, criar_condicao_fator_risco
 
 urlpatterns = [
     path('comunicacao_acidente_trabalho/', criar_comunicacao_acidente_trabalho, name="comunicacao_acidente_trabalho"),
     path('monitoramento_saude_trabalhador/', criar_monitoramento_trabalhador, name="monitoramento_saude_trabalhador"),
-    path('condicao_fator_risco/', criar_condicao_fator_risco, name="condicao_fator_risco"),
+    path('condicao_fator_risco_ambiente_trabalho/', criar_condicao_fator_risco_ambiente_trabalho, name="condicao_fator_risco_ambiente_trabalho"),
+    path('condicao_fator_risco_ambiente_trabalho/<int:id>/fator_risco/', configurar_fator_risco, name="configurar_fator_risco"),
     path('equipamento/', recuperar_equipamentos, name="recuperar_equipamentos"),
     path('equipamento/novo', criar_equipamento, name="criar_equipamento"),
     path('equipamento/<int:id>/', detalhar_equipamento, name="detalhar_equipamento"),

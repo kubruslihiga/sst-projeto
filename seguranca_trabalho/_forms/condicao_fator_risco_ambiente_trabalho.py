@@ -1,30 +1,10 @@
-# -*- encoding: utf-8 -*-
-
 from seguranca_trabalho.submodels.funcionario import Funcionario
 from django import forms
-from django.forms.models import inlineformset_factory
+from django.forms.models import BaseInlineFormSet, inlineformset_factory
 
 from seguranca_trabalho.submodels.monitoramento_saude_trabalhador import MonitoramentoSaudeTrabalhador
 from seguranca_trabalho.submodels.usuario import Usuario
 from seguranca_trabalho.submodels.condicao_fator_risco_ambiente_trabalho import CondicaoAmbientalFatorRisco, CondicaoFator, AnaliseEPI
-
-class MonitoramentoSaudeTrabalhadorForm(forms.ModelForm):
-    class Meta:
-        model = MonitoramentoSaudeTrabalhador
-        fields = ["tipo_exame",
-                  "data_aso",
-                  "resultado_aso",
-                  "medico_aso_cpf",
-                  "medico_aso_nit",
-                  "medico_aso_nome",
-                  "medico_aso_numero_inscricao",
-                  "medico_aso_uf",
-                  # coordenador do PCMSO
-                  "coordenador_cpf",
-                  "coordenador_crm",
-                  "coordenador_uf",
-                  "coordenador_nome"]
-
 
 class CondicaoAmbientalFatorRiscoForm(forms.ModelForm):
     usuario:Usuario
@@ -58,6 +38,10 @@ class CondicaoAmbientalFatorRiscoForm(forms.ModelForm):
                 "metodologia_riscos_ergonomicos",
                 "observacao"]
 
+class BaseCondicaoAmbiente(BaseInlineFormSet):
+    def add_fields(self, form, index) -> None:
+        super().add_fields(form, index)
+
 class CondicaoFatorForm(forms.ModelForm):
     class Meta:
         model = CondicaoFator
@@ -89,5 +73,19 @@ class AnaliseEPIForm(forms.ModelForm):
             "observado_periodicidade_troca",
             "observada_higienizacao_epi"]
 
-CondicaoFatorFormset = inlineformset_factory(CondicaoAmbientalFatorRisco, CondicaoFator, form=CondicaoFatorForm, extra=1)
 AnaliseEPIFormset = inlineformset_factory(CondicaoFator, AnaliseEPI, form=AnaliseEPIForm, extra=1)
+
+class BaseCondicaoFormset(BaseInlineFormSet):
+    def add_fields(self, form, index):
+        super(BaseCondicaoFormset, self).add_fields(form, index)
+
+        # save the formset in the 'nested' property
+        form.analise_epis = AnaliseEPIFormset(
+                        instance=form.instance,
+                        data=form.data if form.is_bound else None,
+                        files=form.files if form.is_bound else None,
+                        prefix='analise-epi-%s-%s' % (
+                            form.prefix,
+                            AnaliseEPIFormset.get_default_prefix()))
+
+CondicaoFatorFormset = inlineformset_factory(CondicaoAmbientalFatorRisco, CondicaoFator, form=CondicaoFatorForm, formset=BaseCondicaoFormset, extra=1)

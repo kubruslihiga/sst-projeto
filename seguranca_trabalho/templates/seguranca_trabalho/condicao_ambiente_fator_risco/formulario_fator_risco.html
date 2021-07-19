@@ -1,0 +1,72 @@
+{% extends 'layouts/base.html' %}
+{% load custom_tags %}
+
+{% block title %} Condições ambientais de trabalho - Fatores de risco {% endblock title %}
+
+{% block content %}
+    {% load widget_tweaks %}
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card bg-secondary shadow border-1">
+                    <div class="card-header">
+                        <h3 class="mb-0">Condições ambientais de trabalho - Configuração de fator(es) risco(s)</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger" role="alert">
+                                {% for error in form.non_field_errors %}
+                                    {{ error }}
+                                {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            
+                            {{ condicao_fator_formset.management_form }}
+                            {% for c in condicao_fator_formset.forms %}
+                                <fieldset class="form-group formset">
+                                    {% for hidden in c.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.fator_risco %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.tipo_avaliacao %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.intensidade %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.limite_tolerancia %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.unidade_medida %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.tecnica_utilizada %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.insalubridade %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.periculosidade %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.aposentadoria_especial %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.utilizacao_epc %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.epc_eficaz %}
+                                    {%  include 'seguranca_trabalho/includes/form_input.html' with field=c.utilizacao_epi %}
+                                </fieldset>
+                            {% endfor %}
+                            <div class="row">
+                                <div class="col text-center">
+                                    <button type="button" class="btn btn-secondary" onclick="window.location.replace('{{ link }}')">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Confirmar fatores risco</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block javascripts %}
+    <script>
+        $(function() {
+            $("fieldset.formset").formset({
+                addText: "Adicionar",
+                deleteText: "Remover",
+                prefix: '{{ condicao_fator_formset.prefix }}'
+            });
+        })
+    </script>
+{% endblock javascripts %}
